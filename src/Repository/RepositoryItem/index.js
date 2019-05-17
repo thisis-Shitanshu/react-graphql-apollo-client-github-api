@@ -84,8 +84,14 @@ const updateAddStar = (
 
 const updateRemoveStar = (
     client, 
-    { data: { removeStar: { starrable: { id } } }}
-    ) => {
+    { 
+        data: { 
+            removeStar: { 
+                starrable: { id } 
+            } 
+        }
+    }
+) => {
         const repository = client.readFragment({
             id: `Repository:${id}`,
             fragment: REPOSITORY_FRAGMENT
@@ -163,6 +169,15 @@ const RepositoryItem = ({
                     <Mutation 
                         mutation={STAR_REPOSITORY} 
                         variables={{id}}
+                        optimisticResponse={{
+                            addStar: {
+                                __typename: 'Mutation',
+                                starrable: {
+                                    __typename: 'Repository',
+                                    id 
+                                } 
+                            }
+                        }}
                         update={updateAddStar}
                     >
                         {(addStar, { data, loading, error }) => (
@@ -178,6 +193,15 @@ const RepositoryItem = ({
                     <Mutation 
                         mutation={UNSTAR_REPOSITORY} 
                         variables={{id}}
+                        optimisticResponse={{
+                            removeStar: {
+                                __typename: 'Mutation',
+                                starrable: {
+                                    __typename: 'Repository',
+                                    id 
+                                } 
+                            }
+                        }}
                         update={updateRemoveStar}
                     >
                         {(removeStar, { data, loading, error }) => (
@@ -196,6 +220,18 @@ const RepositoryItem = ({
                     variables={{
                         id,
                         viewerSubscription: isWatch(viewerSubscription) ? VIEWER_SUBSCRIPTIONS.UNSUBSCRIBED : VIEWER_SUBSCRIPTIONS.SUBSCRIBED,
+                    }}
+                    optimisticResponse={{
+                        updateSubscription: {
+                            __typename: 'Mutation',
+                            subscribable: {
+                                __typename: 'Repository',
+                                id,
+                                viewerSubscription: isWatch(viewerSubscription)
+                                    ? VIEWER_SUBSCRIPTIONS.UNSUBSCRIBED
+                                    : VIEWER_SUBSCRIPTIONS.SUBSCRIBED
+                            }
+                        }
                     }}
                     update={updateWatch}
                 >
