@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
+import { ApolloLink } from 'apollo-link';
+import { onError } from 'apollo-link-error';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
@@ -19,11 +21,25 @@ const httpLink = new HttpLink({
     }
 });
 
+// Application Level Error Handling
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+        // do something with graphql error
+    }
+
+    if (networkError) {
+        // do something with network error
+    }
+});
+
+// Control-flow is important, terminating link should be last. 
+const link = ApolloLink.from([errorLink, httpLink]);
+
 const cache = new InMemoryCache();
 
-// INstance of Apollo Client
+// Instance of Apollo Client
 const client = new ApolloClient({
-    link: httpLink,
+    link,
     cache
 });
 
