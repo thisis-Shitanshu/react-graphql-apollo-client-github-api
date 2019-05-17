@@ -6,8 +6,6 @@ import REPOSITORY_FRAGMENT from '../fragments';
 import Link from '../../Link';
 import Button from '../../Button';
 
-import '../../style.css';
-
 const STAR_REPOSITORY = gql`
     mutation($id: ID!) {
         addStar(input: { starrableId: $id }) {
