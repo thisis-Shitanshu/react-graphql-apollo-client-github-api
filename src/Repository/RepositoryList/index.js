@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 // Custome files
 import FetchMore from '../../FetchMore';
 import RepositoryItem from '../RepositoryItem';
+import Issues from '../../Issue';
 
 const getUpdateQuery = entry => (
     previousResult, 
@@ -41,6 +42,11 @@ const RepositoryList = ({
                 className="RepositoryItem"
             >
                 <RepositoryItem {...node} />
+
+                <Issues 
+                    repositoryName={node.name}
+                    repositoryOwner={node.owner.login}
+                />
             </div>
         ))}
 
