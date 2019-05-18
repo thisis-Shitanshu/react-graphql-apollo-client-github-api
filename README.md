@@ -3,7 +3,7 @@
 mutations from the view-layer.
 - To update the view-layer to reflect the result.
 - Using GraphQL features like:
-    -Pagination 
+    - Pagination 
     - Optimistic UI 
     - Caching 
     - Local state management 
