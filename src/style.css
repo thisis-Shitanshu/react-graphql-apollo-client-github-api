@@ -1,6 +1,5 @@
-#root,
-html,
-body {
+/* src/style.css */
+#root, html, body {
   height: 100%;
 }
 
@@ -26,8 +25,7 @@ h3 {
   margin: 5px 0;
 }
 
-ul,
-li {
+ul, li {
   list-style: none;
   padding-left: 0;
 }
@@ -52,34 +50,82 @@ pre {
   white-space: pre-wrap;
 }
 
-/* App */
+
+/* src/App/style.css */
 .App {
   min-height: 100%;
   display: flex;
   flex-direction: column;
 }
-
+  
 .App-main {
   flex: 1;
 }
-
-.App-content_large-header,
-.App-content_small-header {
+  
+.App-content_large-header, .App-content_small-header {
   margin-top: 54px;
 }
-
+  
 @media only screen and (max-device-width: 480px) {
   .App-content_large-header {
     margin-top: 123px;
   }
-
+  
   .App-content_small-header {
     margin-top: 68px;
   }
 }
 
-/* Button */
-.Button {
+
+/* src/App/Navigation/style.css */
+.Navigation {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  background-color: #24292e;
+  display: flex;
+  align-items: baseline;
+}
+
+@media only screen and (max-device-width: 480px) {
+  .Navigation {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.Navigation-link {
+  font-size: 12px;
+  letter-spacing: 3.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 20px;
+  text-decoration: none;
+}
+
+.Navigation-link a {
+  color: #ffffff;
+}
+
+.Navigation-search {
+  padding: 0 10px;
+}
+
+@media only screen and (max-device-width: 480px) {
+  .Navigation-link {
+    padding: 10px;
+  }
+  .Navigation-search {
+    padding: 10px 10px;
+  }
+}
+
+
+/* src/Button/style.css */
+  .Button {
   padding: 10px;
   background: none;
   cursor: pointer;
@@ -126,48 +172,125 @@ pre {
   outline: none;
 }
 
-/* Error */
+
+/* src/Error/style.css */
 .ErrorMessage {
   margin: 20px;
   display: flex;
   justify-content: center;
 }
 
-/* Loading */
-.Loading {
+
+/* src/FetchMore/style.css */
+.FetchMore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.FetchMore-button {
+  margin: 20px 0;
+}
+
+
+/* src/Input/style.css */
+.Input {
+  border: none;
+  padding: 10px;
+  background: none;
+  outline: none;
+}
+  
+.Input:focus {
+  outline: none;
+}
+  
+.Input_white {
+  border-bottom: 1px solid #fff;
+  color: #fff;
+}
+  
+.Input_black {
+  border-bottom: 1px solid #000;
+  color: #000;
+}
+
+
+/* src/Issue/IssueItem/style.css */
+.IssueItem {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: baseline;
+}
+  
+.IssueItem-content {
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid #000;
+}
+
+
+/* src/Issue/IssueList/style.css */
+.Issues {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+}
+  
+.Issues-content {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+  
+.IssueList {
+  margin: 20px 0;
+}
+  
+@media only screen and (max-device-width: 480px) {
+  .Issues-content {
+    align-items: center;
+  }
+}
+
+
+/* src/Loading/style.css */
+.LoadingIndicator {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 20px 0;
 }
-
-.Loading_center {
+  
+.LoadingIndicator_center {
   margin-top: 30%;
 }
 
-/* Repository Item */
+
+/* src/Repository/style.css */
 .RepositoryItem {
   padding: 20px;
   border-bottom: 1px solid #000;
 }
-
+  
 .RepositoryItem-title {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
 }
-
+  
 @media only screen and (max-device-width: 480px) {
   .RepositoryItem-title {
     flex-direction: column;
     align-items: center;
   }
 }
-
+  
 .RepositoryItem-title-action {
   margin-left: 10px;
 }
-
+  
 .RepositoryItem-description {
   margin: 10px 0;
   display: flex;
@@ -180,7 +303,7 @@ pre {
     align-items: center;
   }
 }
-
+  
 .RepositoryItem-description-info {
   margin-right: 20px;
 }
@@ -196,126 +319,9 @@ pre {
   text-align: right;
   white-space: nowrap;
 }
-
+  
 @media only screen and (max-device-width: 480px) {
   .RepositoryItem-description-details {
     text-align: center;
   }
-}
-
-/* Fetch More */
-.FetchMore {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.FetchMore-button {
-  margin: 20px 0;
-}
-
-/* Input */
-.Input {
-  border: none;
-  padding: 10px;
-  background: none;
-  outline: none;
-}
-
-.Input:focus {
-  outline: none;
-}
-
-.Input_white {
-  border-bottom: 1px solid #fff;
-  color: #fff;
-}
-
-.Input_black {
-  border-bottom: 1px solid #000;
-  color: #000;
-}
-
-/* Navigation */
-.Navigation {
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1;
-  background-color: #24292e;
-  display: flex;
-  align-items: baseline;
-}
-
-@media only screen and (max-device-width: 480px) {
-  .Navigation {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.Navigation-link {
-  font-size: 12px;
-  letter-spacing: 3.5px;
-  font-weight: 500;
-  text-transform: uppercase;
-  padding: 20px;
-  text-decoration: none;
-}
-
-.Navigation-link a {
-  color: #ffffff;
-}
-
-.Navigation-search {
-  padding: 0 10px;
-}
-
-@media only screen and (max-device-width: 480px) {
-  .Navigation-link {
-    padding: 10px;
-  }
-
-  .Navigation-search {
-    padding: 10px 10px;
-  }
-}
-
-/* Issue List */
-.Issues {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 20px;
-}
-
-.Issues-content {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.IssueList {
-  margin: 20px 0;
-}
-
-@media only screen and (max-device-width: 480px) {
-  .Issues-content {
-    align-items: center;
-  }
-}
-
-/* Issue Item */
-.IssueItem {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: baseline;
-}
-
-.IssueItem-content {
-  margin-left: 10px;
-  padding-left: 10px;
-  border-left: 1px solid #000;
 }
