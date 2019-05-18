@@ -2,4 +2,12 @@
 - To send queries and
 mutations from the view-layer.
 - To update the view-layer to reflect the result.
-- Using GraphQL features like pagination, optimistic UI, caching, local state management, and prefetching with Apollo Client in React.
+- Using GraphQL features like:
+    -Pagination 
+    - Optimistic UI 
+    - Caching 
+    - Local state management 
+    - Prefetching with Apollo Client in React (with Hooks).
+
+## The Landing Page
+![](./screenshot.gif)
