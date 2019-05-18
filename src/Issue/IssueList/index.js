@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query, ApolloConsumer } from 'react-apollo';
 
 import IssueItem from '../IssueItem';
 import Loading from '../../Loading';
@@ -53,54 +53,94 @@ const TRANSITION_STATE = {
 
 const isShow = issueState => issueState !== ISSUE_STATES.NONE;
 
-const Issues = ({ repositoryOwner, repositoryName }) => {
-    
-    const [issueState, setIssueState] = useState(ISSUE_STATES.NONE);
+const Issues = ({ 
+    repositoryOwner, 
+    repositoryName,
+    issueState,
+    onChangeIssueState
+}) => (
+    <div className="Issues">
+        <IssueFilter 
+            repositoryOwner={repositoryOwner}
+            repositoryName={repositoryName}
+            issueState={issueState}
+            onChangeIssueState={onChangeIssueState}
+        />
 
-    const onChangeIssueState = nextIssueState => {
-        setIssueState(nextIssueState);
-    };
-    
-    return(
-        <div className="Issues">
+        {isShow(issueState) && (
+            <Query
+                query={GET_ISSUES_OF_REPOSITORY}
+                variables={{
+                    repositoryOwner,
+                    repositoryName,
+                    issueState
+                }}
+            >
+            {({ data, loading, error }) => {
+                if (error) {
+                    return <ErrorMessage error={error}/>
+                }
+
+                const { repository } = data;
+
+                if (loading && !repository) {
+                    return <Loading />
+                }
+
+
+                if(!repository.issues.edges.length) {
+                    return <div className="IssueList">No issues...</div>
+                }
+
+                return <IssueList issues={repository.issues} />
+            }}
+        </Query>
+        )}
+    </div>
+);
+
+const prefetchIssues = (
+    client,
+    repositoryOwner,
+    repositoryName,
+    issueState
+) => {
+    const nextIssueState = TRANSITION_STATE[issueState];
+
+    if (isShow(nextIssueState)) {
+        client.query({
+            query: GET_ISSUES_OF_REPOSITORY,
+            variables: {
+                repositoryOwner,
+                repositoryName,
+                issueState: nextIssueState
+            }
+        });
+    }
+};
+
+const IssueFilter = ({ 
+    repositoryOwner,
+    repositoryName,
+    issueState, 
+    onChangeIssueState 
+}) => (
+    <ApolloConsumer>
+        {client => (
             <ButtonUnobtrusive
                 onClick={() => onChangeIssueState(TRANSITION_STATE[issueState])}
+                onMouseOver={() => prefetchIssues(
+                    client,
+                    repositoryOwner,
+                    repositoryName,
+                    issueState
+                )}
             >
                 {TRANSITION_LABELS[issueState]}
             </ButtonUnobtrusive>
-
-            {isShow(issueState) && (
-                <Query
-                    query={GET_ISSUES_OF_REPOSITORY}
-                    variables={{
-                        repositoryOwner,
-                        repositoryName,
-                        issueState
-                    }}
-                >
-                {({ data, loading, error }) => {
-                    if (error) {
-                        return <ErrorMessage error={error}/>
-                    }
-
-                    const { repository } = data;
-
-                    if (loading && !repository) {
-                        return <Loading />
-                    }
-
-
-                    if(!repository.issues.edges.length) {
-                        return <div className="IssueList">No issues...</div>
-                    }
-
-                    return <IssueList issues={repository.issues} />
-                }}
-            </Query>
-            )}
-        </div>
-    );
-};
+        )}
+    </ApolloConsumer>
+);
 
 const IssueList = ({ issues }) => (
     <div className="IssueList">

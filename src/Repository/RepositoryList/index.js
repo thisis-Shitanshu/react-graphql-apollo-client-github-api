@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
 // Custome files
 import FetchMore from '../../FetchMore';
@@ -34,34 +34,45 @@ const RepositoryList = ({
     fetchMore,
     loading,
     entry
-}) => (
-    <Fragment>
-        {repositories.edges.map(({ node }) => (
-            <div 
-                key={node.id} 
-                className="RepositoryItem"
+}) => {
+
+    const [issueState, setIssueState] = useState('NONE');
+
+    const onChangeIssueState = nextIssueState => {
+        setIssueState(nextIssueState);
+    };
+
+    return (
+        <Fragment>
+            {repositories.edges.map(({ node }) => (
+                <div 
+                    key={node.id} 
+                    className="RepositoryItem"
+                >
+                    <RepositoryItem {...node} />
+
+                    <Issues 
+                        repositoryName={node.name}
+                        repositoryOwner={node.owner.login}
+                        issueState={issueState}
+                        onChangeIssueState={onChangeIssueState}
+                    />
+                </div>
+            ))}
+
+            <FetchMore
+                loading={loading}
+                hasNextPage={repositories.pageInfo.hasNextPage}
+                variables={{
+                    cursor: repositories.pageInfo.endCursor
+                }}
+                updateQuery={getUpdateQuery(entry)}
+                fetchMore={fetchMore}
             >
-                <RepositoryItem {...node} />
-
-                <Issues 
-                    repositoryName={node.name}
-                    repositoryOwner={node.owner.login}
-                />
-            </div>
-        ))}
-
-        <FetchMore
-            loading={loading}
-            hasNextPage={repositories.pageInfo.hasNextPage}
-            variables={{
-                cursor: repositories.pageInfo.endCursor
-            }}
-            updateQuery={getUpdateQuery(entry)}
-            fetchMore={fetchMore}
-        >
-            Repository
-        </FetchMore>
-    </Fragment>
-);
+                Repository
+            </FetchMore>
+        </Fragment>
+    )
+};
 
 export default RepositoryList;
