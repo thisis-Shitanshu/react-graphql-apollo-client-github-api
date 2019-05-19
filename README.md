@@ -11,3 +11,11 @@ mutations from the view-layer.
 
 ## The Landing Page
 ![](./screenshot.gif)
+
+## Installation
+```
+$ git clone https://github.com/thisis-Shitanshu/react-graphql-apollo-client-github-api.git
+$ cd react-graphql-apollo-client-github-api
+$ yarn install
+$ yarn start
+```
